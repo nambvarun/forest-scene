@@ -1,0 +1,103 @@
+MakeNamedMedium "vol" 
+        "string type" [ "homogeneous" ] 
+        "rgb sigma_a" [ 0.05 0.05 0.05 ] 
+        "rgb sigma_s" [ 0.7 0.7 0.8 ] 
+Film "image" 
+        "integer xresolution" [ 300 ] 
+        "integer yresolution" [ 300 ] 
+        "string filename" [ "custom.exr" ] 
+
+Sampler "random" "integer pixelsamples" [256]
+# Sampler "halton" "integer pixelsamples" [32]
+Integrator "volpath"
+           #"float rrthreshold" [0.001]
+	   "integer maxdepth" [1]
+
+#        "integer mutationsperpixel" [ 700 ] 
+MediumInterface "" "vol"
+#LookAt -0.75 0.800000012 -1.25
+#        -1 0.800000012 0
+#         0 1 0
+
+LookAt -2 0.8 -2
+       -1 0.8  0
+        0   1  0
+
+Camera "perspective" 
+        "float fov" [ 95 ] 
+
+#############################################
+WorldBegin
+
+MediumInterface "" "vol"
+
+AttributeBegin
+    MediumInterface "vol" ""
+    Material "" 
+    Shape "sphere" 
+            "float radius" [ 6 ]
+
+    #Shape "trianglemesh"
+    #      "integer indices" [0 1 2 2 3 0]
+    #	  "point P" [-0.5 0 -0.5
+AttributeEnd
+
+AttributeBegin
+    Rotate -60 0 0 1
+    LightSource "infinite" 
+            "string mapname" [ "textures/skylight-day.exr" ] 
+            "rgb scale" [ 1.5000000000 1.5000000000 1.3999999762 ] 
+AttributeEnd
+#LightSource "point" 
+#        #"float coneangle" [ 4.3499999046 ] 
+#        "point from" [ -3 4 3] 
+#        #"point to" [ 0 0. 0] 
+#        "rgb I" [ 500 500 500 ] 
+
+LightSource "point"
+	#"float coneangle" [4.3499]
+	"point from" [0 3 2]
+	#"point to" [0 0 0]
+	"rgb I" [500 500 500]
+
+#LightSource "distant"
+#            "point from" [-8 24 12]
+#	    "blackbody L" [7000 0.4]
+
+Material "matte" "rgb Kd" [.625 0.3203125 0.17578125]
+AttributeBegin
+    Translate -1 0 0
+    Rotate    90 1 0 0
+    # Translate -1 1 0
+    Material "matte" 
+    Shape "cylinder"
+            "float radius" [ 0.2000000000 ]
+	    "float zmin" [-4]
+	    "float zmax" [2]
+AttributeEnd
+
+#AttributeBegin
+#    Translate -1 1 0
+#    Material "matte"
+#    Shape "sphere"
+#    	  "float radius" [0.5]
+#AttributeEnd
+
+AttributeBegin
+    Translate 0 0 0
+    Rotate    90 1 0 0
+
+    Material "matte"
+    Shape "cylinder"
+          "float radius" [0.50000000]
+          "float zmin"   [-2]
+	  "float zmax"   [2]
+AttributeEnd
+
+Material "matte" 
+        "rgb Kd" [ 0.2000000030 0.2000000030 0.2000000030 ]
+Translate 0 -0.100000001 0
+Shape "trianglemesh" 
+        "integer indices" [ 0 1 2 2 3 0 ] 
+        "point P" [ -15 0 -15 15 0 -15 15 0 15 -15 0 15 ] 
+WorldEnd
