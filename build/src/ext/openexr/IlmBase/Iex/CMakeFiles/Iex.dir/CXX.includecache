@@ -1,0 +1,74 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexBaseExc.cpp
+IexExport.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexExport.h
+IexBaseExc.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexBaseExc.h
+IexMacros.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexMacros.h
+windows.h
+-
+stdlib.h
+-
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexBaseExc.h
+IexNamespace.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexNamespace.h
+IexExport.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexExport.h
+string
+-
+exception
+-
+sstream
+-
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexErrnoExc.h
+IexBaseExc.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexBaseExc.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexExport.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexForward.h
+IexNamespace.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexNamespace.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexMacros.h
+sstream
+-
+IexExport.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexExport.h
+IexForward.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexForward.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexNamespace.h
+IlmBaseConfig.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IlmBaseConfig.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexThrowErrnoExc.cpp
+IexThrowErrnoExc.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexThrowErrnoExc.h
+IexErrnoExc.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexErrnoExc.h
+string.h
+-
+errno.h
+-
+windows.h
+-
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexThrowErrnoExc.h
+IexBaseExc.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexBaseExc.h
+IexExport.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Iex/IexExport.h
+
+src/ext/openexr/IlmBase/config/IlmBaseConfig.h
+

@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/half.cpp
+assert.h
+-
+half.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/half.h
+toFloat.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/toFloat.h
+eLut.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/eLut.h
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/half.h
+halfExport.h
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/halfExport.h
+iostream
+-
+
+/Users/varun/Documents/College/Current Classes/CS 348B/forest-scene/pbrt-v3/src/ext/openexr/IlmBase/Half/halfExport.h
+
+src/ext/openexr/IlmBase/Half/eLut.h
+
+src/ext/openexr/IlmBase/Half/toFloat.h
+
