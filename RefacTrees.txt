@@ -1,0 +1,229 @@
+import bpy
+
+import random
+import math
+import mathutils
+
+#Script Constants
+
+gravVec = mathutils.Vector((0,0,1)) #negative as gravitropism is negative for bracnhes and stems
+
+#TROPISM MAP [grav, photo]
+
+scene = bpy.context.scene
+
+def add_spline(curvDat,location):
+    spline = curvDat.splines.new(type = 'NURBS')
+    spline.points.add(3)
+    for p in spline.points:
+        p.co = (location + (1,))
+    spline.use_endpoint_u = True
+    return spline
+
+def add_curve(name, location = (0,0,0)):
+
+    # Create data block and new object
+    curve_data = bpy.data.curves.new(name=name+"_data", type='CURVE')
+
+    spline = add_spline(curve_data,(0,0,0))
+    curve_object = bpy.data.objects.new(name=name, object_data=curve_data)
+    curve_object.motion_path
+    curve_data.dimensions = '3D'
+    # Link to scene
+    scene.objects.link(curve_object)
+
+    # Place to a specified location
+    curve_object.location = location
+    curve_object.select = True
+    scene.objects.active = curve_object
+    return curve_object
+    
+def extrude_point(spline, transVec = (0,0,0)):
+    pInd = len(spline.points)
+    spline.points.add(1)
+    p0 = spline.points[pInd-1].co
+    spline.points[pInd].co[0] = p0.x + transVec[0]
+    spline.points[pInd].co[1] = p0.y + transVec[1]
+    spline.points[pInd].co[2] = p0.z + transVec[2]
+    spline.points[pInd].co[3] = 1
+    #spline.points.update()
+    return spline.points[pInd]
+
+#Helper Funcs
+def set_pivot_point(type):
+    
+    if type not in ('BOUNDING_BOX_CENTER', 'CURSOR', 'INDIVIDUAL_ORIGINS',
+                    'MEDIAN_POINT', 'ACTIVE_ELEMENT'):
+        return False
+    
+    for a in bpy.context.screen.areas:
+        if a.type == 'VIEW_3D':
+            break
+    else:
+        return False
+    
+    a.spaces[0].pivot_point = type
+    return True
+        
+def set_state(mode):
+    for area in bpy.context.screen.areas:
+        if area.type == 'VIEW_3D':
+            override = bpy.context.copy()
+            override['area'] = area
+            bpy.ops.object.mode_set(override, mode=mode)
+            break
+
+def spawn_branch(retVal, trunk = None, recursions = 1, root = (0,0,0), dir_in = (0,0,0),segs = 5, subBs = 16, minEx = 6, maxEx = 7, radius = .2, nFac = 1.0, pointing = None):
+    
+    if trunk is None:
+        return False
+    
+    gFac = -.1
+    if recursions == 1:
+        gfac = -.15
+        nFac*=5
+    if recursions == 0:
+        gFac = -.2
+        nFac*=5
+        minEx*=.3
+        maxEx*=.3
+    perturb = nFac * radius
+    
+    dir = mathutils.Vector(dir_in)
+    dir.normalize()
+    delta = minEx + (maxEx-minEx)*ran.random()
+    delta = delta/segs
+    branchN = mathutils.Vector(root)
+    
+    splineIndex = len(trunk.splines)
+    #bpy.ops.curve.primitive_nurbs_path_add(enter_editmode = True, location = root)
+    mySpline = add_spline(trunk,root)
+    
+    for p in mySpline.points:
+        p.radius = radius
+        
+    sign = True
+    for i in range(segs):
+        perturbVec = mathutils.Vector((perturb*ran.random()-perturb/2,perturb*ran.random()-perturb/2,perturb*ran.random()-perturb/2))
+        dirVec = delta*dir
+        transVec = dirVec+perturbVec
+        p0 = mySpline.points[len(mySpline.points)-1]
+        extrude_point(mySpline, (transVec.x,transVec.y,transVec.z))
+        p1 = mySpline.points[len(mySpline.points)-1]
+        p1.radius = .9 * p0.radius
+        if recursions > 0 and i < segs -1 and i > 0:
+            
+            p0Vec = p0.co.to_3d()
+            radVec = transVec
+            for b in range(int(subBs/segs)):
+                if sign:
+                    sTransVec = gravVec.cross(radVec)
+                else:
+                    sTransVec = radVec.cross(gravVec)
+                oVec = radVec * ran.random() + p0Vec
+                if pointing is not None:
+                    sTransVec = sTransVec.slerp(radVec,pointing)
+                lFac = (segs - (i - 3.0))/segs
+                lFac /=2
+                if recursions == 1: lFac = .75
+                spawn_branch(retVal, trunk,recursions = recursions-1, root = oVec[0:3],dir_in = sTransVec, segs = 5, radius = min(.02,p1.radius),minEx = minEx*lFac, maxEx = maxEx*lFac,pointing = pointing)
+                sign = not sign
+        
+        dir = dir.slerp(gravVec,gFac,dir)
+     
+    mySpline.points[len(mySpline.points)-1].radius = .0001
+
+    
+    if recursions > 0:
+        huh = 0
+    else:
+        retVal.append(mySpline)
+
+def spawn_tree(lastLevel, thicken = True, root = (0,0,0), dir = (0,0,1), height = 30, trunkRes = 15, trunkFrac = .4, recursions = 2, branches = 50, fibFrac = None, trunkDiamFac = 1/22.0):
+    
+    
+    
+    
+    curvObj = add_curve("Tree",  root)
+    curvDat = curvObj.data
+    
+    diameter = height * trunkDiamFac
+    diamK = math.pow(diameter,1.0/.8)
+    rootV = mathutils.Vector((root[0],root[1],root[2],1))
+    
+    
+    curvePoints = curvDat.splines[0].points
+    curvePoints[0].co = mathutils.Vector((0,0,-1,1))
+    curvePoints[1].co = mathutils.Vector((0,0,-.5,1))
+    curvePoints[2].co = mathutils.Vector((0,0,0,1))
+    curvePoints[3].co = mathutils.Vector((0,0,.5,1))
+    
+    for i in range(trunkRes):
+        extrude_point(curvDat.splines[0], (.01*ran.random()-.005,.01*ran.random()-.005,height/trunkRes))
+#    
+#   
+    for p in curvePoints:
+        p.radius = diameter*math.pow(max(0,(height-p.co[2])/height),.8)
+
+    theta = ran.random()*2*math.pi
+    for i in range(branches):
+        #z = (1.0-trunkFrac)*height*ran.random()+trunkFrac*height
+        dz = (1.0-trunkFrac)*height/branches
+        z = dz*i + trunkFrac*height - .375*dz*ran.random()
+        rad = diameter*math.pow(max(0,(height-z)/height),2)
+        medX = 5
+        tipTrim = (1/tipFrac)*((height-z)/height)
+        #tipTrim = 1
+        minEx = medX-ran.random()
+        maxEx = medX+ran.random()
+        if (z/height) > 1-tipFrac:
+            minEx *= tipTrim
+            maxEx *= tipTrim
+        print(rad)
+        theta += (fibFrac) * 2 * math.pi + .375*ran.random()
+        spawn_branch(retVal = lastLevel, trunk = curvDat, root = (0,0,z), dir_in = (math.sin(theta),math.cos(theta),-.2), segs = 5, minEx = minEx, maxEx = maxEx, recursions = recursions, radius = .05, nFac = 5,pointing = .3)
+
+    #Thicken Curve
+    if thicken:
+        curvDat.resolution_u = 2
+        curvDat.bevel_depth = 1.0
+        curvDat.bevel_resolution = 2
+        curvDat.fill_mode = 'FULL'
+        set_state('OBJECT')
+    return curvObj
+
+
+###############################MAIN###########################################
+
+#Values
+seed = 10
+minHeight = 15
+maxHeight = 30
+trunkFrac = .6
+branchFrac = .1
+tipFrac = .3
+trunkDiamFac = 1/22.0
+branches = 40
+
+#Setup
+bpy.context.scene.cursor_location = (0,0,0);
+scene = bpy.context.scene
+cam = scene.camera
+ran = random.Random(11)
+
+
+
+for i in range(5):
+    lastLevel = []
+    theta = ran.random()*math.pi/2
+    r = 15*math.sqrt(ran.random())+10
+    dx = -1.0*r*math.cos(theta)+cam.location.x
+    dy = r*math.sin(theta)+cam.location.y
+    c = spawn_tree(lastLevel = lastLevel, root = (dx,dy,ran.random()), height = 20+10*ran.random(), branches = 14+ran.randint(1,12), fibFrac = 5.0/21, recursions = 2)
+    for s in lastLevel:
+        for p in s.points:
+            p.select = True
+    set_state('EDIT')   
+    bpy.ops.curve.separate()
+    set_state('OBJECT')
+    
