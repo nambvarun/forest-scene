@@ -1,0 +1,82 @@
+# Materials File
+
+Texture "Material.001::ImageMap" "color" "imagemap"
+	"string filename" ["textures/FernA.png"]
+
+
+MakeNamedMaterial "Material.001"
+	"texture Kd" ["Material.001::ImageMap"]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Stem"
+	"color Kd" [0.01646539 0.21994869 0.01501094]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+Texture "GrassA::Image Map Texture" "float" "imagemap"
+	"string filename" ["textures/g1.png"]
+	"string channel" ["alpha"]
+	"float gain" [1.000000000000000]
+	"float gamma" [2.200000047683716]
+	"float vscale" [-1.000000000000000]
+
+MakeNamedMaterial "GrassA::Transparent Material"
+	"string type" ["null"]
+
+Texture "GrassA::Image Map Texture.001" "color" "imagemap"
+	"string filename" ["textures/g2.png"]
+	"float gain" [1.000000000000000]
+	"float gamma" [2.200000047683716]
+	"float vscale" [-1.000000000000000]
+
+MakeNamedMaterial "GrassA::Matte Material"
+	"texture Kd" ["GrassA::Image Map Texture.001"]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "GrassA::Metal Material"
+	"float uroughness" [0.441666662693024]
+	"float vroughness" [0.441666662693024]
+	"string type" ["metal2"]
+
+MakeNamedMaterial "GrassA::Mix Material"
+	"float amount" [0.500000000000000]
+	"string namedmaterial1" ["GrassA::Matte Material"]
+	"string namedmaterial2" ["GrassA::Metal Material"]
+	"string type" ["mix"]
+
+MakeNamedMaterial "GrassA"
+	"texture amount" ["GrassA::Image Map Texture"]
+	"string namedmaterial1" ["GrassA::Transparent Material"]
+	"string namedmaterial2" ["GrassA::Mix Material"]
+	"string type" ["mix"]
+
+MakeNamedMaterial "Mountain"	# this one
+	"color Kd" [158 147 146]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Material.002"
+	"color Kd" [0.60000002 0.60000002 0.60000002]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Wood"	# this one
+	"color Kd" [0.33203175 0.1171875 0.09765625]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Pwood"	# this one
+	"color Kd" [0.35546875 0.1484375 0.1484375]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Leafs"	# this one
+	"color Kd" [0.25390625 0.32421875 0.24609375]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
+
+MakeNamedMaterial "Dirt"	# this one
+	"color Kd" [0.1640625 0.10546875 0.0546875]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]

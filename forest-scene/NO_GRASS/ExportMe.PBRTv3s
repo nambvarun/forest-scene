@@ -1,0 +1,89 @@
+# Main Scene File
+MakeNamedMedium "vol"
+	"string type" ["homogeneous_mis"]
+	"rgb sigma_a" [0.000 0.000 0.000]
+	"rgb sigma_s" [0.1  0.1  0.1 ]
+
+Scale -1 1 1
+
+Accelerator "bvh"
+
+Sampler "random"
+	"integer pixelsamples" [1024]
+
+Integrator "volpathmis"
+	"integer maxdepth" [10]
+
+PixelFilter "box"
+	"float xwidth" [0.500000000000000]
+	"float ywidth" [0.500000000000000]
+
+LookAt 15.000000 -15.000000 1.750000 14.270264 -14.356919 1.982234 0.158763 -0.171002 0.972395
+
+Camera "perspective"
+	"float fov" [77.319619706566101]
+	"float screenwindow" [-1.000000000000000 1.000000000000000 -0.562500000000000 0.562500000000000]
+	"float shutteropen" [0.000000000000000]
+	"float shutterclose" [0.041666666666667]
+
+Film "image"
+	"integer xresolution" [1280]
+	#"integer xresolution" [533]
+	"integer yresolution" [720]
+	#"integer yresolution" [300]
+	"string filename" ["Fern.Scene.00003.png"]
+
+WorldBegin
+
+MediumInterface "" "vol"
+
+AttributeBegin
+	MediumInterface "vol" ""
+	Material ""
+	Translate 7 -5.5 12
+	Shape "sphere"
+		"float radius" [20]
+AttributeEnd
+
+Include "./ExportMe/Scene/00003/PBRTv3-Materials.PBRTv3m"
+
+Include "./ExportMe/Scene/00003/PBRTv3-Geometry.PBRTv3g"
+
+TransformBegin #  "Background_Lux_autoconverted"
+
+Transform [1.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 1.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 1.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 0.000000000000000 1.000000000000000]
+
+#LightGroup "default"
+
+TransformBegin #  ""
+
+Scale -1.000000000000000 1.000000000000000 1.000000000000000
+
+#LightSource "infinite"
+#	"float gain" [1.000000000000000]
+#	"float importance" [1.000000000000000]
+#	"color L" [0.35729906 0.35729906 0.54428148]
+
+AttributeBegin
+	Rotate 0 0 0 1
+	LightSource "infinite"
+		"string mapname" ["textures/skylight-day.exr"]
+		# "rgb scale"	 [1.5 1.5 1.39999999762]
+		"rgb scale"      [15 15 14]
+AttributeEnd
+
+LightSource "point"
+	"point from" [-190 200 160]
+	# "point from" [-190 150 130]   # original
+	"rgb I" [100000000 100000000 100000000]
+
+#LightSource "point"
+#	"point from" [-6 -4 1]
+#	# 218 212 69
+#	"rgb I" [21 21 7]
+
+
+TransformEnd # ""
+
+TransformEnd # ""
+WorldEnd
